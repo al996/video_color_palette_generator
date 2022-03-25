@@ -1,3 +1,4 @@
 flask
 whitenoise
 gunicorn
+opencv-python
