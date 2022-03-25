@@ -17,8 +17,8 @@ def FrameCapture(vidPath, outDir):
     while success:
         success, image = vidObj.read()
       
-        # Saves the frames each second (24 frame per second)
-        if success and frame % 24 == 0:
+        # Saves the frames each 5 seconds (24 frame per second)
+        if success and frame % 120 == 0:
             path = os.path.join(outDir, "%d.jpg" % second)
             cv2.imwrite(path, image)
             second += 1
@@ -27,4 +27,4 @@ def FrameCapture(vidPath, outDir):
   
 
 if __name__ == '__main__':
-    # FrameCapture("file.mp4", "directory")
+    FrameCapture("SpiritedAway.mp4", "SpiritedAway")
