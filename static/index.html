@@ -15,6 +15,20 @@
   <h1>Video Color Palette Generator</h1>
 
 
+
+
+  <script>
+    const requestData = async function () {
+      data = await d3.csv("data/color_palette.csv");
+      console.log(data);
+
+      data.forEach(d => {
+      });
+    };
+
+    requestData();
+  </script>
+
 </body>
 
 <style>
