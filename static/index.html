@@ -14,17 +14,89 @@
 <body>
   <h1>Video Color Palette Generator</h1>
 
-
+  <svg id="plot" width="1515" height="270"></svg>
 
 
   <script>
+    /* ---------------- Plot ---------------- */
+    const svg_plot = d3.select("#plot");
+    const width_plot = svg_plot.attr("width");
+    const height_plot = svg_plot.attr("height");
+    const margin_plot = { top: 10, right: 10, bottom: 10, left: 10 };
+    const plot_width = width_plot - margin_plot.left - margin_plot.right;
+    const plot_height = height_plot - margin_plot.top - margin_plot.bottom;
+
+    const annotations_plot = svg_plot.append("g").attr("id", "annotations_plot");
+
+    const plot = svg_plot.append("g")
+      .attr("transform", "translate(" + margin_plot.left + "," + margin_plot.top + ")");
+    /* ---------------- Plot ---------------- */
+
+
     const requestData = async function () {
       data = await d3.csv("data/color_palette.csv");
       console.log(data);
 
       data.forEach(d => {
+        d['id'] = parseInt(d['id']);
       });
+
+      let color_1 = plot.selectAll("color_1").data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "color_1")
+        .attr("opacity", 1)
+        .attr("x", d => d["id"])
+        .attr("y", d => 0)
+        .attr("width", 2)
+        .attr("height", 50)
+        .attr("fill", d => d["color_1"]);
+
+      let color_2 = plot.selectAll("color_2").data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "color_2")
+        .attr("opacity", 1)
+        .attr("x", d => d["id"])
+        .attr("y", d => 50)
+        .attr("width", 2)
+        .attr("height", 50)
+        .attr("fill", d => d["color_2"]);
+
+      let color_3 = plot.selectAll("color_3").data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "color_3")
+        .attr("opacity", 1)
+        .attr("x", d => d["id"])
+        .attr("y", d => 100)
+        .attr("width", 2)
+        .attr("height", 50)
+        .attr("fill", d => d["color_3"]);
+
+      let color_4 = plot.selectAll("color_4").data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "color_4")
+        .attr("opacity", 1)
+        .attr("x", d => d["id"])
+        .attr("y", d => 150)
+        .attr("width", 2)
+        .attr("height", 50)
+        .attr("fill", d => d["color_4"]);
+
+      let color_5 = plot.selectAll("color_5").data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "color_5")
+        .attr("opacity", 1)
+        .attr("x", d => d["id"])
+        .attr("y", d => 200)
+        .attr("width", 2)
+        .attr("height", 50)
+        .attr("fill", d => d["color_5"]);
     };
+
 
     requestData();
   </script>
@@ -34,6 +106,10 @@
 <style>
   body {
     font-family: 'Arvo', sans-serif;
+  }
+
+  svg {
+    background-color: slategray;
   }
 </style>
 
