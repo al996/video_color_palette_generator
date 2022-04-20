@@ -20,10 +20,9 @@ def ColorPalette(writer, dirPath):
         color_thief = ColorThief(filename)
         palette = color_thief.get_palette(color_count=5)
         palette.sort(key=get_hsv)
-        row =[idx, str(datetime.timedelta(seconds=int(idx)*5))]
+        row =[idx, str(datetime.timedelta(seconds=int(idx)*60))]
         for color in palette:
             row.append(webcolors.rgb_to_hex(color))
-        print(row)
         writer.writerow(row)
   
 
