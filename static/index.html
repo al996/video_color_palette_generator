@@ -20,13 +20,40 @@
     <img id="frame-img" width="720" height="387" src="images/-1.jpg"
       alt="Interaction Instructions: View more details about a frame by hovering or clicking on a vertical bar above." />
     <div id="frame-info">
-      <svg id="frame-color-palette" width="520" height="140">
+      <svg id="frame-color-palette" width="520" height="120">
         <rect id="color_1" x="10" y="10" width="100" height="100" fill="white" stroke="black" />
         <rect id="color_2" x="110" y="10" width="100" height="100" fill="white" stroke="black" />
         <rect id="color_3" x="210" y="10" width="100" height="100" fill="white" stroke="black" />
         <rect id="color_4" x="310" y="10" width="100" height="100" fill="white" stroke="black" />
         <rect id="color_5" x="410" y="10" width="100" height="100" fill="white" stroke="black" />
       </svg>
+      <div id="frame-color-palette_names">
+        <div id="color_1_name" class="color_name">
+          <p id="color_1_name_r" class="color_name_color">R: n/a</p>
+          <p id="color_1_name_g" class="color_name_color">G: n/a</p>
+          <p id="color_1_name_b" class="color_name_color">B: n/a</p>
+        </div>
+        <div id="color_2_name" class="color_name">
+          <p id="color_2_name_r" class="color_name_color">R: n/a</p>
+          <p id="color_2_name_g" class="color_name_color">G: n/a</p>
+          <p id="color_2_name_b" class="color_name_color">B: n/a</p>
+        </div>
+        <div id="color_3_name" class="color_name">
+          <p id="color_3_name_r" class="color_name_color">R: n/a</p>
+          <p id="color_3_name_g" class="color_name_color">G: n/a</p>
+          <p id="color_3_name_b" class="color_name_color">B: n/a</p>
+        </div>
+        <div id="color_4_name" class="color_name">
+          <p id="color_4_name_r" class="color_name_color">R: n/a</p>
+          <p id="color_4_name_g" class="color_name_color">G: n/a</p>
+          <p id="color_4_name_b" class="color_name_color">B: n/a</p>
+        </div>
+        <div id="color_5_name" class="color_name">
+          <p id="color_5_name_r" class="color_name_color">R: n/a</p>
+          <p id="color_5_name_g" class="color_name_color">G: n/a</p>
+          <p id="color_5_name_b" class="color_name_color">B: n/a</p>
+        </div>
+      </div>
       <h2 id="frame-time">Time: n/a</h2>
     </div>
   </div>
@@ -35,6 +62,12 @@
 
 
   <script>
+    // Source: https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+    const hexToRgb = hex =>
+      hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+        , (m, r, g, b) => '#' + r + r + g + g + b + b)
+        .substring(1).match(/.{2}/g)
+        .map(x => parseInt(x, 16))
 
     const margin = { top: 10, right: 10, bottom: 10, left: 10 };
 
@@ -60,40 +93,6 @@
 
     const frame = svg_frame.append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    const color_1_info = frame.append("text")
-      .attr("class", "color_info")
-      .attr("x", 0)
-      .attr("y", 120)
-      .style("text-anchor", "center")
-      .text("n/a");
-    const color_2_info = frame.append("text")
-      .attr("class", "color_info")
-      .attr("x", 100)
-      .attr("y", 120)
-      .style("text-anchor", "center")
-      .text("n/a");
-    const color_3_info = frame.append("text")
-      .attr("class", "color_info")
-      .attr("x", 200)
-      .attr("y", 120)
-      .style("text-anchor", "center")
-      .text("n/a");
-    const color_4_info = frame.append("text")
-      .attr("class", "color_info")
-      .attr("x", 300)
-      .attr("y", 120)
-      .style("text-anchor", "center")
-      .text("n/a");
-    const color_5_info = frame.append("text")
-      .attr("class", "color_info")
-      .attr("x", 400)
-      .attr("y", 120)
-      .style("text-anchor", "center")
-      .text("n/a");
-
-    const color_infos = [color_1_info, color_2_info, color_3_info, color_4_info, color_5_info];
-
     /* ---------------- Frame Info ---------------- */
 
     const requestData = async function () {
@@ -236,7 +235,16 @@
 
             for (let i = 1; i <= 5; i++) {
               document.getElementById("color_" + i).style.fill = "white";
-              color_infos[i - 1].text("n/a");
+
+              document.getElementById("color_" + i + "_name_r").innerHTML = "R: n/a";
+              document.getElementById("color_" + i + "_name_g").innerHTML = "G: n/a";
+              document.getElementById("color_" + i + "_name_b").innerHTML = "B: n/a";
+              document.getElementById("color_" + i + "_name_r").style.fontWeight = "normal";
+              document.getElementById("color_" + i + "_name_g").style.fontWeight = "normal";
+              document.getElementById("color_" + i + "_name_b").style.fontWeight = "normal";
+              document.getElementById("color_" + i + "_name_r").style.backgroundColor = "transparent";
+              document.getElementById("color_" + i + "_name_g").style.backgroundColor = "transparent";
+              document.getElementById("color_" + i + "_name_b").style.backgroundColor = "transparent";
             }
 
             document.getElementById("frame-time").innerText = "Time: n/a";
@@ -250,7 +258,41 @@
 
             for (let i = 1; i <= 5; i++) {
               document.getElementById("color_" + i).style.fill = data0["color_" + i];
-              color_infos[i - 1].text(data0["color_" + i]);
+
+              let r = hexToRgb(data0["color_" + i])[0];
+              let g = hexToRgb(data0["color_" + i])[1];
+              let b = hexToRgb(data0["color_" + i])[2];
+
+              document.getElementById("color_" + i + "_name_r").innerHTML = "R: " + r;
+              document.getElementById("color_" + i + "_name_g").innerHTML = "G: " + g;
+              document.getElementById("color_" + i + "_name_b").innerHTML = "B: " + b;
+
+              let max_color = Math.max(r, g, b);
+
+              if (parseInt(document.getElementById("color_" + i + "_name_r").innerHTML.substring(3)) === max_color) {
+                document.getElementById("color_" + i + "_name_r").style.fontWeight = "bold";
+                document.getElementById("color_" + i + "_name_r").style.backgroundColor = "white";
+              } else {
+                document.getElementById("color_" + i + "_name_r").style.fontWeight = "normal";
+                document.getElementById("color_" + i + "_name_r").style.backgroundColor = "transparent";
+              }
+
+              if (parseInt(document.getElementById("color_" + i + "_name_g").innerHTML.substring(3)) === max_color) {
+                document.getElementById("color_" + i + "_name_g").style.fontWeight = "bold";
+                document.getElementById("color_" + i + "_name_g").style.backgroundColor = "white";
+              } else {
+                document.getElementById("color_" + i + "_name_g").style.fontWeight = "normal";
+                document.getElementById("color_" + i + "_name_g").style.backgroundColor = "transparent";
+              }
+
+              if (parseInt(document.getElementById("color_" + i + "_name_b").innerHTML.substring(3)) === max_color) {
+                document.getElementById("color_" + i + "_name_b").style.fontWeight = "bold";
+                document.getElementById("color_" + i + "_name_b").style.backgroundColor = "white";
+              } else {
+                document.getElementById("color_" + i + "_name_b").style.fontWeight = "normal";
+                document.getElementById("color_" + i + "_name_b").style.backgroundColor = "transparent";
+              }
+
             }
 
             document.getElementById("frame-time").innerText = "Time: " + time;
@@ -274,7 +316,41 @@
 
             for (let i = 1; i <= 5; i++) {
               document.getElementById("color_" + i).style.fill = data0["color_" + i];
-              color_infos[i - 1].text(data0["color_" + i]);
+
+              let r = hexToRgb(data0["color_" + i])[0];
+              let g = hexToRgb(data0["color_" + i])[1];
+              let b = hexToRgb(data0["color_" + i])[2];
+
+              document.getElementById("color_" + i + "_name_r").innerHTML = "R: " + r;
+              document.getElementById("color_" + i + "_name_g").innerHTML = "G: " + g;
+              document.getElementById("color_" + i + "_name_b").innerHTML = "B: " + b;
+
+              let max_color = Math.max(r, g, b);
+
+              if (parseInt(document.getElementById("color_" + i + "_name_r").innerHTML.substring(3)) === max_color) {
+                document.getElementById("color_" + i + "_name_r").style.fontWeight = "bold";
+                document.getElementById("color_" + i + "_name_r").style.backgroundColor = "white";
+              } else {
+                document.getElementById("color_" + i + "_name_r").style.fontWeight = "normal";
+                document.getElementById("color_" + i + "_name_r").style.backgroundColor = "transparent";
+              }
+
+              if (parseInt(document.getElementById("color_" + i + "_name_g").innerHTML.substring(3)) === max_color) {
+                document.getElementById("color_" + i + "_name_g").style.fontWeight = "bold";
+                document.getElementById("color_" + i + "_name_g").style.backgroundColor = "white";
+              } else {
+                document.getElementById("color_" + i + "_name_g").style.fontWeight = "normal";
+                document.getElementById("color_" + i + "_name_g").style.backgroundColor = "transparent";
+              }
+
+              if (parseInt(document.getElementById("color_" + i + "_name_b").innerHTML.substring(3)) === max_color) {
+                document.getElementById("color_" + i + "_name_b").style.fontWeight = "bold";
+                document.getElementById("color_" + i + "_name_b").style.backgroundColor = "white";
+              } else {
+                document.getElementById("color_" + i + "_name_b").style.fontWeight = "normal";
+                document.getElementById("color_" + i + "_name_b").style.backgroundColor = "transparent";
+              }
+
             }
 
             document.getElementById("frame-time").innerText = "Time: " + time;
@@ -300,7 +376,16 @@
           if (lock_frame === -1) {
             for (let i = 1; i <= 5; i++) {
               document.getElementById("color_" + i).style.fill = "white";
-              color_infos[i - 1].text("n/a");
+
+              document.getElementById("color_" + i + "_name_r").innerHTML = "R: n/a";
+              document.getElementById("color_" + i + "_name_g").innerHTML = "G: n/a";
+              document.getElementById("color_" + i + "_name_b").innerHTML = "B: n/a";
+              document.getElementById("color_" + i + "_name_r").style.fontWeight = "normal";
+              document.getElementById("color_" + i + "_name_g").style.fontWeight = "normal";
+              document.getElementById("color_" + i + "_name_b").style.fontWeight = "normal";
+              document.getElementById("color_" + i + "_name_r").style.backgroundColor = "transparent";
+              document.getElementById("color_" + i + "_name_g").style.backgroundColor = "transparent";
+              document.getElementById("color_" + i + "_name_b").style.backgroundColor = "transparent";
             }
 
             document.getElementById("frame-time").innerText = "Time: n/a";
@@ -310,7 +395,40 @@
 
             for (let i = 1; i <= 5; i++) {
               document.getElementById("color_" + i).style.fill = lock_data["color_" + i];
-              color_infos[i - 1].text(lock_data["color_" + i]);
+
+              let r = hexToRgb(lock_data["color_" + i])[0];
+              let g = hexToRgb(lock_data["color_" + i])[1];
+              let b = hexToRgb(lock_data["color_" + i])[2];
+
+              document.getElementById("color_" + i + "_name_r").innerHTML = "R: " + r;
+              document.getElementById("color_" + i + "_name_g").innerHTML = "G: " + g;
+              document.getElementById("color_" + i + "_name_b").innerHTML = "B: " + b;
+
+              let max_color = Math.max(r, g, b);
+
+              if (parseInt(document.getElementById("color_" + i + "_name_r").innerHTML.substring(3)) === max_color) {
+                document.getElementById("color_" + i + "_name_r").style.fontWeight = "bold";
+                document.getElementById("color_" + i + "_name_r").style.backgroundColor = "white";
+              } else {
+                document.getElementById("color_" + i + "_name_r").style.fontWeight = "normal";
+                document.getElementById("color_" + i + "_name_r").style.backgroundColor = "transparent";
+              }
+
+              if (parseInt(document.getElementById("color_" + i + "_name_g").innerHTML.substring(3)) === max_color) {
+                document.getElementById("color_" + i + "_name_g").style.fontWeight = "bold";
+                document.getElementById("color_" + i + "_name_g").style.backgroundColor = "white";
+              } else {
+                document.getElementById("color_" + i + "_name_g").style.fontWeight = "normal";
+                document.getElementById("color_" + i + "_name_g").style.backgroundColor = "transparent";
+              }
+
+              if (parseInt(document.getElementById("color_" + i + "_name_b").innerHTML.substring(3)) === max_color) {
+                document.getElementById("color_" + i + "_name_b").style.fontWeight = "bold";
+                document.getElementById("color_" + i + "_name_b").style.backgroundColor = "white";
+              } else {
+                document.getElementById("color_" + i + "_name_b").style.fontWeight = "normal";
+                document.getElementById("color_" + i + "_name_b").style.backgroundColor = "transparent";
+              }
             }
 
             document.getElementById("frame-time").innerText = "Time: " + lock_data["time"];
@@ -349,6 +467,7 @@
 
   #frame-info {
     margin-left: 10px;
+    background-color: rgb(230, 215, 215);
   }
 
   #frame-img {
@@ -367,6 +486,22 @@
     border: 0px;
     border-radius: 8px;
     pointer-events: none;
+  }
+
+  #frame-color-palette_names {
+    display: flex;
+    margin-left: 10px;
+    margin-right: 10px;
+    justify-content: space-around;
+  }
+
+  #frame-time {
+    margin: 10px
+  }
+
+  .color_name_color {
+    padding: 5px;
+    margin: 0;
   }
 </style>
 
