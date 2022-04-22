@@ -18,18 +18,20 @@
 
   <div id="frame-detail">
     <img id="frame-img" width="700" height="376" src="images/-1.jpg"
-      alt="Interaction Instructions: View more details about a frame by hovering or clicking on a vertical bar above."></img>
+      alt="Interaction Instructions: View more details about a frame by hovering or clicking on a vertical bar above." />
     <div id="frame-info">
-      <svg id="frame-color-palette" width="520" height="220">
-        <rect id="color_1" x="10" y="10" width="100" height="100" fill="white" stroke="black"></rect>
-        <rect id="color_2" x="110" y="10" width="100" height="100" fill="white" stroke="black"></rect>
-        <rect id="color_3" x="210" y="10" width="100" height="100" fill="white" stroke="black"></rect>
-        <rect id="color_4" x="310" y="10" width="100" height="100" fill="white" stroke="black"></rect>
-        <rect id="color_5" x="410" y="10" width="100" height="100" fill="white" stroke="black"></rect>
+      <svg id="frame-color-palette" width="520" height="150">
+        <rect id="color_1" x="10" y="10" width="100" height="100" fill="white" stroke="black" />
+        <rect id="color_2" x="110" y="10" width="100" height="100" fill="white" stroke="black" />
+        <rect id="color_3" x="210" y="10" width="100" height="100" fill="white" stroke="black" />
+        <rect id="color_4" x="310" y="10" width="100" height="100" fill="white" stroke="black" />
+        <rect id="color_5" x="410" y="10" width="100" height="100" fill="white" stroke="black" />
       </svg>
       <h2 id="frame-time">Time: n/a</h2>
     </div>
   </div>
+
+
 
 
   <script>
@@ -58,6 +60,40 @@
 
     const frame = svg_frame.append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    const color_1_info = frame.append("text")
+      .attr("class", "color_info")
+      .attr("x", 0)
+      .attr("y", 120)
+      .style("text-anchor", "center")
+      .text("n/a");
+    const color_2_info = frame.append("text")
+      .attr("class", "color_info")
+      .attr("x", 100)
+      .attr("y", 120)
+      .style("text-anchor", "center")
+      .text("n/a");
+    const color_3_info = frame.append("text")
+      .attr("class", "color_info")
+      .attr("x", 200)
+      .attr("y", 120)
+      .style("text-anchor", "center")
+      .text("n/a");
+    const color_4_info = frame.append("text")
+      .attr("class", "color_info")
+      .attr("x", 300)
+      .attr("y", 120)
+      .style("text-anchor", "center")
+      .text("n/a");
+    const color_5_info = frame.append("text")
+      .attr("class", "color_info")
+      .attr("x", 400)
+      .attr("y", 120)
+      .style("text-anchor", "center")
+      .text("n/a");
+
+    const color_infos = [color_1_info, color_2_info, color_3_info, color_4_info, color_5_info];
+
     /* ---------------- Frame Info ---------------- */
 
     const requestData = async function () {
@@ -200,6 +236,7 @@
 
             for (let i = 1; i <= 5; i++) {
               document.getElementById("color_" + i).style.fill = "white";
+              color_infos[i - 1].text("n/a");
             }
 
             document.getElementById("frame-time").innerText = "Time: n/a";
@@ -213,6 +250,7 @@
 
             for (let i = 1; i <= 5; i++) {
               document.getElementById("color_" + i).style.fill = data0["color_" + i];
+              color_infos[i - 1].text(data0["color_" + i]);
             }
 
             document.getElementById("frame-time").innerText = "Time: " + time;
@@ -236,6 +274,7 @@
 
             for (let i = 1; i <= 5; i++) {
               document.getElementById("color_" + i).style.fill = data0["color_" + i];
+              color_infos[i - 1].text(data0["color_" + i]);
             }
 
             document.getElementById("frame-time").innerText = "Time: " + time;
@@ -261,6 +300,7 @@
           if (lock_frame === -1) {
             for (let i = 1; i <= 5; i++) {
               document.getElementById("color_" + i).style.fill = "white";
+              color_infos[i - 1].text("n/a");
             }
 
             document.getElementById("frame-time").innerText = "Time: n/a";
@@ -270,6 +310,7 @@
 
             for (let i = 1; i <= 5; i++) {
               document.getElementById("color_" + i).style.fill = lock_data["color_" + i];
+              color_infos[i - 1].text(lock_data["color_" + i]);
             }
 
             document.getElementById("frame-time").innerText = "Time: " + lock_data["time"];
