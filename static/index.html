@@ -14,7 +14,17 @@
 <body>
   <h1>Spirited Away Color Journey</h1>
 
-  <svg id="plot" width="1270" height="145"></svg>
+  <svg id="plot" width="1270" height="170"></svg>
+
+  <div id="frame-detail">
+    <img id="frame-img" src="images/-1.jpg"
+      alt="Interaction Instructions: View more details about a frame by hovering or clicking on a vertical bar above."
+      width="700" height="376">
+    <div id="frame-info">
+      <svg id="frame-color-palette" width="520" height="120"></svg>
+      <h2 id="frame-time">Time: n/a</h2>
+    </div>
+  </div>
 
 
   <script>
@@ -32,6 +42,25 @@
       .attr("transform", "translate(" + margin_plot.left + "," + margin_plot.top + ")");
     /* ---------------- Plot ---------------- */
 
+    /* ---------------- Frame Image ---------------- */
+    const frame_img = document.getElementById("frame-img");
+    let lock_frame = -1;
+    let lock_border;
+    /* ---------------- Frame Image ---------------- */
+
+    /* ---------------- Frame Info ---------------- */
+    const svg_frame = d3.select("#plot");
+    const width_frame = svg_plot.attr("width");
+    const height_frame = svg_plot.attr("height");
+    const margin_frame = { top: 10, right: 10, bottom: 10, left: 10 };
+    const frame_width = width_frame - margin_frame.left - margin_frame.right;
+    const frame_height = height_frame - margin_frame.top - margin_frame.bottom;
+
+    const annotations_frame = svg_plot.append("g").attr("id", "annotations_frame");
+
+    const frame = svg_frame.append("g")
+      .attr("transform", "translate(" + margin_frame.left + "," + margin_frame.top + ")");
+    /* ---------------- Frame Info ---------------- */
 
     const requestData = async function () {
       data = await d3.csv("data/color_palette.csv");
@@ -108,13 +137,17 @@
         .attr("height", 125)
         .attr("stroke", d => "white")
         .on('click', function (d, i) {
+          let id = d3.select(this).data()[0]["id"]
+          lock_frame = lock_frame === id ? -1 : id
+          frame_img.setAttribute('src', "images/" + lock_frame + ".jpg");
         })
         .on('mouseover', function (d, i) {
           d3.select(this)
             .transition()
             .attr("x", d => d["id"] * 10 - 1)
             .attr('stroke-width', 2)
-            .attr('width', 12);
+            .attr('width', 12)
+            .attr("stroke", "white");
         })
 
         .on('mouseout', function (d, i) {
@@ -122,7 +155,8 @@
             .transition()
             .attr("x", d => d["id"] * 10)
             .attr('stroke-width', 1)
-            .attr('width', 10);
+            .attr('width', 10)
+            .attr("stroke", "white");
         })
     };
 
@@ -138,7 +172,16 @@
   }
 
   svg {
-    background-color: rgb(215, 222, 230);
+    background-color: rgb(230, 215, 215);
+  }
+
+  #frame-detail {
+    display: flex;
+    flex-direction: row;
+  }
+
+  #frame-info {
+    margin-left: 10px;
   }
 </style>
 
